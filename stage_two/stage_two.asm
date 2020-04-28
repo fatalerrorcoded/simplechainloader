@@ -37,8 +37,11 @@ get_next_partition_entry:
     jmp get_next_partition_entry
 
 .end:
+    ; check if we found any partitions
+    cmp di, 0
+    je no_partition_found
 
-    jmp $
+    jmp hang
 
 print:
     push eax
@@ -56,6 +59,19 @@ print:
     int 0x10
     pop eax
     ret
+
+hang:
+    cli
+    hlt
+    jmp hang
+
+no_partition_found:
+    lea si, [msg.no_partition_found]
+    call print
+    jmp hang
+
+msg:
+.no_partition_found: db "No bootable partitions found!", 0
 
 ; Layout:
 ; 0x0 - Partition Number (used for writing the active bit to the right place on disk)

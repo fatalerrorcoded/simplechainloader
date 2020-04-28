@@ -53,6 +53,7 @@ print:
     ret
 
 hang:
+    cli
     hlt
     jmp hang
 
