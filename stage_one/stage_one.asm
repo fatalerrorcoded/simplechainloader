@@ -81,6 +81,5 @@ dap:
     db 0x10 ; size of packet
     db 0
 .sectors: dw 32
-.buffer_address: dw 0x500
-.buffer_segment: dw 0x0
+.buffer_address: dd 0x500
 .start_sector: dq 0
