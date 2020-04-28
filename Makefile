@@ -13,10 +13,14 @@ flash: stage_one stage_two
 	dd if=$(BUILD_DIR)/stage_two/stage_two.bin of=$(IMG) bs=512 seek=1
 
 stage_one: setup
-	nasm -f bin stage_one/stage_one.asm -o $(BUILD_DIR)/stage_one/stage_one.bin
+	nasm -f elf -F dwarf -g stage_one/stage_one.asm -o $(BUILD_DIR)/stage_one/stage_one.o
+	ld -melf_i386 -Ttext=0x7c00 -o $(BUILD_DIR)/stage_one/stage_one.elf $(BUILD_DIR)/stage_one/stage_one.o
+	objcopy -O binary $(BUILD_DIR)/stage_one/stage_one.elf $(BUILD_DIR)/stage_one/stage_one.bin
 
 stage_two: setup
-	nasm -f bin stage_two/stage_two.asm -o $(BUILD_DIR)/stage_two/stage_two.bin
+	nasm -f elf -F dwarf -g stage_two/stage_two.asm -o $(BUILD_DIR)/stage_two/stage_two.o
+	ld -melf_i386 -Ttext=0x700 -o $(BUILD_DIR)/stage_two/stage_two.elf $(BUILD_DIR)/stage_two/stage_two.o
+	objcopy -O binary $(BUILD_DIR)/stage_two/stage_two.elf $(BUILD_DIR)/stage_two/stage_two.bin
 
 setup:
 	-@mkdir -p $(BUILD_DIR)

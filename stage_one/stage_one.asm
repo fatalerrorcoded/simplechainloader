@@ -1,6 +1,6 @@
 %define MENU_SIGNATURE 0x10AD1700
 
-org 0x7c00
+section .text
 bits 16
 boot:
     xor ax, ax

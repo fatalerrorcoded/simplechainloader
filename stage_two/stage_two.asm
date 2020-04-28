@@ -1,6 +1,6 @@
 %define MENU_SIGNATURE 0x10AD1700
 
-org 0x700
+section .text
 bits 16
 
 dd MENU_SIGNATURE
